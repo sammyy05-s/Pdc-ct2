@@ -1,0 +1,1456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PDC — Complete Solutions | CT2</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1209;
+    --paper: #fdf8f0;
+    --cream: #f5ede0;
+    --gold: #c8922a;
+    --gold-light: #e8b84b;
+    --rust: #8b3a1a;
+    --teal: #1a5c5a;
+    --teal-light: #2a8a87;
+    --rule: #c8b89a;
+    --box-bg: #fef9f2;
+    --highlight: #fff8e8;
+    --shadow: rgba(50,30,10,0.12);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 16px;
+    line-height: 1.75;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 3rem 2rem 2.5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 20px,
+      rgba(200,146,42,0.04) 20px,
+      rgba(200,146,42,0.04) 21px
+    );
+  }
+  header .badge {
+    display: inline-block;
+    border: 1.5px solid var(--gold);
+    color: var(--gold);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    padding: 0.25rem 0.9rem;
+    margin-bottom: 1rem;
+  }
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 900;
+    letter-spacing: -0.01em;
+    line-height: 1.15;
+  }
+  header h1 em { color: var(--gold-light); font-style: normal; }
+  header p {
+    margin-top: 0.6rem;
+    font-size: 0.95rem;
+    opacity: 0.65;
+    font-weight: 300;
+    letter-spacing: 0.03em;
+  }
+
+  /* ── NAV ── */
+  nav {
+    background: var(--ink);
+    border-top: 1px solid rgba(200,146,42,0.25);
+    padding: 0.6rem 1.5rem;
+    display: flex; flex-wrap: wrap; gap: 0.3rem 1.2rem;
+    justify-content: center;
+    position: sticky; top: 0; z-index: 50;
+  }
+  nav a {
+    color: var(--gold-light);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.07em;
+    text-decoration: none;
+    opacity: 0.75;
+    transition: opacity 0.2s;
+    padding: 0.2rem 0;
+  }
+  nav a:hover { opacity: 1; }
+
+  /* ── LAYOUT ── */
+  main {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem 5rem;
+  }
+
+  /* ── SECTION ── */
+  .section {
+    margin-bottom: 4rem;
+    animation: fadeUp 0.4s ease both;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 1.8rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 2px solid var(--ink);
+  }
+  .section-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--gold);
+    letter-spacing: 0.12em;
+    white-space: nowrap;
+    margin-top: 0.2rem;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  /* ── PROBLEM CARD ── */
+  .problem-card {
+    background: var(--box-bg);
+    border: 1px solid var(--rule);
+    border-left: 4px solid var(--gold);
+    padding: 1.2rem 1.4rem;
+    margin-bottom: 1.5rem;
+    border-radius: 0 4px 4px 0;
+  }
+  .problem-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--gold);
+    letter-spacing: 0.12em;
+    margin-bottom: 0.4rem;
+  }
+  .problem-card p {
+    font-size: 0.95rem;
+    color: #3a2a18;
+    line-height: 1.65;
+  }
+
+  /* ── SOLUTION BLOCK ── */
+  .solution {
+    margin-bottom: 2.5rem;
+  }
+  .solution h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    color: var(--teal);
+    margin-bottom: 0.8rem;
+    padding-left: 0.5rem;
+    border-left: 3px solid var(--teal-light);
+  }
+  .solution p {
+    margin-bottom: 0.75rem;
+    font-size: 0.97rem;
+  }
+  .solution ul, .solution ol {
+    margin: 0.5rem 0 0.75rem 1.4rem;
+    font-size: 0.97rem;
+  }
+  .solution li { margin-bottom: 0.3rem; }
+
+  /* ── MATH DISPLAY ── */
+  .math-block {
+    background: var(--highlight);
+    border: 1px solid #e8d8b0;
+    border-radius: 4px;
+    padding: 0.9rem 1.3rem;
+    margin: 0.8rem 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.88rem;
+    line-height: 1.9;
+    overflow-x: auto;
+    color: var(--rust);
+  }
+  .math-block .comment {
+    color: #8a7055;
+    font-style: italic;
+  }
+
+  /* ── ANSWER BOX ── */
+  .answer-box {
+    background: var(--teal);
+    color: #e8f5f5;
+    border-radius: 6px;
+    padding: 1rem 1.4rem;
+    margin: 1rem 0;
+  }
+  .answer-box .answer-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    opacity: 0.7;
+    margin-bottom: 0.4rem;
+  }
+  .answer-box p, .answer-box li {
+    font-size: 0.97rem;
+    line-height: 1.7;
+  }
+  .answer-box ul { margin-left: 1.3rem; }
+  .answer-box strong { color: var(--gold-light); }
+
+  /* ── WARNING / NOTE ── */
+  .note {
+    background: #fff8e8;
+    border: 1px solid #e8c860;
+    border-radius: 4px;
+    padding: 0.7rem 1.1rem;
+    font-size: 0.88rem;
+    color: #5a4010;
+    margin: 0.8rem 0;
+  }
+  .note strong { color: var(--rust); }
+
+  /* ── TABLE ── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    font-size: 0.92rem;
+  }
+  th {
+    background: var(--ink);
+    color: var(--paper);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    padding: 0.6rem 0.9rem;
+    text-align: left;
+  }
+  td {
+    border: 1px solid var(--rule);
+    padding: 0.55rem 0.9rem;
+    vertical-align: top;
+  }
+  tr:nth-child(even) td { background: var(--cream); }
+
+  /* ── RESULT ROW ── */
+  .result-row {
+    display: flex; flex-wrap: wrap; gap: 0.8rem;
+    margin: 1rem 0;
+  }
+  .result-chip {
+    background: var(--ink);
+    color: var(--gold-light);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    padding: 0.35rem 0.85rem;
+    border-radius: 3px;
+    white-space: nowrap;
+  }
+
+  /* ── DIAGRAM ── */
+  .diagram {
+    background: #f0ece4;
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    padding: 1.2rem 1.5rem;
+    margin: 1rem 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    line-height: 2;
+    overflow-x: auto;
+    color: var(--ink);
+  }
+  .diagram .label { color: var(--teal); font-weight: 600; }
+  .diagram .arrow { color: var(--gold); }
+
+  /* ── PLOT (SVG-based) ── */
+  .plot-container {
+    margin: 1.2rem 0;
+    background: #fafaf7;
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    padding: 1rem;
+  }
+  .plot-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+    margin-bottom: 0.5rem;
+    text-align: center;
+  }
+
+  /* ── SEPARATOR ── */
+  hr.section-sep {
+    border: none;
+    border-top: 1px solid var(--rule);
+    margin: 2rem 0;
+  }
+
+  /* ── STEP COUNTER ── */
+  .steps { counter-reset: step; }
+  .step {
+    counter-increment: step;
+    padding-left: 2.2rem;
+    position: relative;
+    margin-bottom: 0.9rem;
+  }
+  .step::before {
+    content: counter(step);
+    position: absolute; left: 0; top: 0.05em;
+    width: 1.5rem; height: 1.5rem;
+    background: var(--gold);
+    color: var(--ink);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 600;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  /* ── CONCLUSION BOX ── */
+  .conclusion {
+    border: 2px solid var(--gold);
+    border-radius: 6px;
+    padding: 1.1rem 1.4rem;
+    margin: 1.2rem 0;
+    background: #fffbf2;
+  }
+  .conclusion .conclusion-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--gold);
+    letter-spacing: 0.15em;
+    margin-bottom: 0.5rem;
+  }
+
+  footer {
+    text-align: center;
+    padding: 2rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    color: #a09070;
+    letter-spacing: 0.08em;
+    border-top: 1px solid var(--rule);
+  }
+
+  @media (max-width: 600px) {
+    .result-row { flex-direction: column; }
+    .diagram { font-size: 0.72rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="badge">PROCESS DYNAMICS & CONTROL — CT2</div>
+  <h1>Complete <em>Solutions</em> Manual</h1>
+  <p>All questions solved with full working &amp; explanations</p>
+</header>
+
+<nav>
+  <a href="#sec1">§1 2nd Order System</a>
+  <a href="#sec2">§2 Two Tanks</a>
+  <a href="#sec3">§3 Proportional Band</a>
+  <a href="#sec4">§4 PI Controller</a>
+  <a href="#sec5">§5 Controller Problems</a>
+  <a href="#sec6">§6 Servo &amp; Regulator</a>
+  <a href="#sec7">§7 Block Diagram</a>
+</nav>
+
+<main>
+
+<!-- ══════════════════════════════════════════════
+     SECTION 1 — 2ND ORDER SYSTEM
+═══════════════════════════════════════════════ -->
+<section class="section" id="sec1">
+  <div class="section-header">
+    <span class="section-num">SECTION 01</span>
+    <h2 class="section-title">2nd Order System</h2>
+  </div>
+
+  <div class="problem-card">
+    <div class="problem-label">PROBLEM STATEMENT</div>
+    <p>
+      Given transfer function: <strong>G(s) = 12 / (5s² + 2.1s + 3)</strong><br>
+      Step input of magnitude 4. Find: % overshoot, decay ratio, rise time, settling time, period of oscillation, max Y(t), ultimate Y(t). Draw pole-zero plot.
+    </p>
+  </div>
+
+  <div class="solution">
+    <h3>Step 1 — Convert to Standard 2nd-Order Form</h3>
+    <p>The standard form is:</p>
+    <div class="math-block">
+G(s) = K / (τ²s² + 2ζτs + 1)
+
+Divide numerator and denominator by 3:
+
+G(s) = (12/3) / [(5/3)s² + (2.1/3)s + 1]
+     = 4 / [1.667s² + 0.7s + 1]
+    </div>
+    <p>Matching coefficients:</p>
+    <div class="math-block">
+τ² = 1.667  →  τ = √1.667 = <strong>1.291 min</strong>     <span class="comment">// natural period</span>
+2ζτ = 0.7   →  ζ = 0.7 / (2 × 1.291) = <strong>0.271</strong>   <span class="comment">// damping ratio</span>
+K = 4                                                  <span class="comment">// steady-state gain</span>
+ωₙ = 1/τ = 1/1.291 = <strong>0.775 rad/min</strong>           <span class="comment">// natural frequency</span>
+    </div>
+    <div class="note">
+      <strong>Check:</strong> Since 0 &lt; ζ = 0.271 &lt; 1, the system is <strong>underdamped</strong> — it will oscillate.
+    </div>
+  </div>
+
+  <div class="solution">
+    <h3>Step 2 — Damped Natural Frequency</h3>
+    <div class="math-block">
+ωd = ωₙ × √(1 − ζ²)
+   = 0.775 × √(1 − 0.271²)
+   = 0.775 × √(1 − 0.0734)
+   = 0.775 × √0.9266
+   = 0.775 × 0.9626
+   = <strong>0.746 rad/min</strong>
+    </div>
+  </div>
+
+  <div class="solution">
+    <h3>Step 3 — All Performance Parameters</h3>
+    <div class="math-block">
+% Overshoot (OS) = exp(−πζ / √(1−ζ²)) × 100
+                 = exp(−π × 0.271 / √0.9266) × 100
+                 = exp(−0.8513 / 0.9626) × 100
+                 = exp(−0.8844) × 100
+                 = 0.4130 × 100
+                 = <strong>41.3 %</strong>
+
+Decay Ratio (DR) = (OS/100)² = (0.413)² = <strong>0.1706</strong>
+                <span class="comment">// or DR = exp(−2πζ/√(1−ζ²)) = e^(−1.769) = 0.171 ✓</span>
+
+Period of Oscillation (T) = 2π / ωd
+                          = 2π / 0.746
+                          = <strong>8.42 min</strong>
+
+Time of First Peak (tp) = π / ωd
+                        = π / 0.746
+                        = <strong>4.21 min</strong>
+
+Rise Time (tr)  = (π − cos⁻¹ζ) / ωd
+                = (π − cos⁻¹(0.271)) / 0.746
+                = (3.1416 − 1.297) / 0.746
+                = 1.844 / 0.746
+                = <strong>2.47 min</strong>
+
+Settling Time (ts) = 4 / (ζ × ωₙ)      <span class="comment">// 2% criterion</span>
+                   = 4 / (0.271 × 0.775)
+                   = 4 / 0.2100
+                   = <strong>19.05 min</strong>
+    </div>
+  </div>
+
+  <div class="solution">
+    <h3>Step 4 — Response to Step Input of Magnitude 4</h3>
+    <div class="math-block">
+Ultimate (steady-state) value:
+  y(∞) = K × step magnitude = 4 × 4 = <strong>16 units</strong>
+
+Maximum value of Y(t):
+  y_max = y(∞) × (1 + OS/100)
+        = 16 × (1 + 0.413)
+        = 16 × 1.413
+        = <strong>22.61 units</strong>  (occurs at t = 4.21 min)
+    </div>
+  </div>
+
+  <div class="answer-box">
+    <div class="answer-label">FINAL ANSWERS — SECTION 1 PROBLEM 1</div>
+    <ul>
+      <li>τ = 1.291 min &nbsp;|&nbsp; ζ = 0.271 &nbsp;|&nbsp; ωₙ = 0.775 rad/min &nbsp;|&nbsp; ωd = 0.746 rad/min</li>
+      <li><strong>% Overshoot = 41.3%</strong></li>
+      <li><strong>Decay Ratio = 0.171</strong></li>
+      <li><strong>Rise Time = 2.47 min</strong></li>
+      <li><strong>Time to first peak = 4.21 min</strong></li>
+      <li><strong>Period = 8.42 min</strong></li>
+      <li><strong>Settling Time = 19.05 min</strong></li>
+      <li><strong>Ultimate Y(t) = 16 units</strong></li>
+      <li><strong>Maximum Y(t) = 22.61 units at t = 4.21 min</strong></li>
+    </ul>
+  </div>
+
+  <div class="solution">
+    <h3>Pole-Zero Plot</h3>
+    <p>Find poles of G(s) = 12 / (5s² + 2.1s + 3):</p>
+    <div class="math-block">
+5s² + 2.1s + 3 = 0
+
+s = [−2.1 ± √(2.1² − 4×5×3)] / (2×5)
+  = [−2.1 ± √(4.41 − 60)] / 10
+  = [−2.1 ± √(−55.59)] / 10
+  = [−2.1 ± j7.456] / 10
+
+Poles: s₁ = <strong>−0.21 + j0.746</strong>
+       s₂ = <strong>−0.21 − j0.746</strong>
+
+No finite zeros.
+    </div>
+
+    <div class="plot-container">
+      <div class="plot-title">POLE-ZERO PLOT — s-PLANE</div>
+      <svg viewBox="0 0 500 340" width="100%" style="max-height:320px;">
+        <!-- Axes -->
+        <line x1="50" y1="170" x2="460" y2="170" stroke="#1a1209" stroke-width="1.5"/>
+        <line x1="250" y1="20" x2="250" y2="320" stroke="#1a1209" stroke-width="1.5"/>
+        <!-- Arrow heads -->
+        <polygon points="460,170 450,165 450,175" fill="#1a1209"/>
+        <polygon points="250,20 245,30 255,30" fill="#1a1209"/>
+        <!-- Axis labels -->
+        <text x="468" y="174" font-family="JetBrains Mono" font-size="13" fill="#1a1209">σ</text>
+        <text x="256" y="16" font-family="JetBrains Mono" font-size="13" fill="#1a1209">jω</text>
+        <!-- Grid ticks σ-axis -->
+        <line x1="145" y1="166" x2="145" y2="174" stroke="#c8b89a" stroke-width="1"/>
+        <text x="128" y="188" font-family="JetBrains Mono" font-size="11" fill="#8a7055">−0.21</text>
+        <line x1="250" y1="166" x2="250" y2="174" stroke="#c8b89a" stroke-width="1"/>
+        <text x="244" y="188" font-family="JetBrains Mono" font-size="11" fill="#8a7055">0</text>
+        <!-- Grid ticks jω-axis -->
+        <line x1="246" y1="90" x2="254" y2="90" stroke="#c8b89a" stroke-width="1"/>
+        <text x="258" y="94" font-family="JetBrains Mono" font-size="11" fill="#8a7055">+j0.746</text>
+        <line x1="246" y1="250" x2="254" y2="250" stroke="#c8b89a" stroke-width="1"/>
+        <text x="258" y="254" font-family="JetBrains Mono" font-size="11" fill="#8a7055">−j0.746</text>
+        <!-- Dashed lines to poles -->
+        <line x1="145" y1="90" x2="145" y2="170" stroke="#c8922a" stroke-width="1" stroke-dasharray="4,3"/>
+        <line x1="145" y1="90" x2="250" y2="90" stroke="#c8922a" stroke-width="1" stroke-dasharray="4,3"/>
+        <line x1="145" y1="250" x2="145" y2="170" stroke="#c8922a" stroke-width="1" stroke-dasharray="4,3"/>
+        <line x1="145" y1="250" x2="250" y2="250" stroke="#c8922a" stroke-width="1" stroke-dasharray="4,3"/>
+        <!-- Poles -->
+        <text x="133" y="96" font-size="22" font-weight="700" fill="#8b3a1a">×</text>
+        <text x="133" y="256" font-size="22" font-weight="700" fill="#8b3a1a">×</text>
+        <!-- Pole labels -->
+        <text x="60" y="80" font-family="JetBrains Mono" font-size="11" fill="#8b3a1a">s₁=−0.21+j0.746</text>
+        <text x="60" y="270" font-family="JetBrains Mono" font-size="11" fill="#8b3a1a">s₂=−0.21−j0.746</text>
+        <!-- Shaded LHP indicator -->
+        <rect x="50" y="22" width="200" height="296" fill="rgba(26,92,90,0.04)" rx="2"/>
+        <text x="70" y="310" font-family="JetBrains Mono" font-size="10" fill="#1a5c5a">STABLE (LHP)</text>
+        <!-- Legend -->
+        <text x="320" y="95" font-size="20" font-weight="700" fill="#8b3a1a">×</text>
+        <text x="340" y="97" font-family="Source Serif 4" font-size="12" fill="#3a2a18">= Pole</text>
+        <text x="320" y="120" font-family="Source Serif 4" font-size="11" fill="#8a7055" font-style="italic">No finite zeros</text>
+      </svg>
+    </div>
+    <div class="note">
+      Both poles lie in the <strong>Left Half Plane (LHP)</strong> with negative real part → system is <strong>stable</strong>. Complex conjugate poles confirm <strong>underdamped oscillatory</strong> behavior.
+    </div>
+  </div>
+
+  <div class="solution" style="margin-top:2rem;">
+    <h3>Time-Domain Response Plot (Step = 4)</h3>
+    <div class="plot-container">
+      <div class="plot-title">Y(t) vs TIME — UNDERDAMPED STEP RESPONSE</div>
+      <svg viewBox="0 0 520 300" width="100%" style="max-height:300px;">
+        <defs>
+          <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+            <polygon points="0 0, 8 3, 0 6" fill="#1a1209"/>
+          </marker>
+        </defs>
+        <!-- Axes -->
+        <line x1="55" y1="260" x2="500" y2="260" stroke="#1a1209" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <line x1="55" y1="270" x2="55" y2="20" stroke="#1a1209" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <!-- Axis labels -->
+        <text x="505" y="264" font-family="JetBrains Mono" font-size="12" fill="#1a1209">t</text>
+        <text x="58" y="16" font-family="JetBrains Mono" font-size="12" fill="#1a1209">Y(t)</text>
+        <!-- y(∞) = 16 dashed line at y=120 -->
+        <line x1="55" y1="120" x2="498" y2="120" stroke="#1a5c5a" stroke-width="1" stroke-dasharray="6,4"/>
+        <text x="460" y="115" font-family="JetBrains Mono" font-size="10" fill="#1a5c5a">y(∞)=16</text>
+        <!-- y_max = 22.61 dashed at y=62 -->
+        <line x1="55" y1="62" x2="220" y2="62" stroke="#c8922a" stroke-width="1" stroke-dasharray="4,3"/>
+        <text x="225" y="58" font-family="JetBrains Mono" font-size="10" fill="#c8922a">y_max=22.61</text>
+        <!-- Response curve: underdamped, ζ=0.271, settles to 16 -->
+        <!-- Scaled: y=16 → svg_y=120, y=0 → svg_y=260, y_max=22.61 → svg_y≈62 -->
+        <!-- t axis: 0→25min maps to x=55→490 -->
+        <path d="M55,260 
+          C80,260 95,220 110,150 
+          C120,108 130,65 152,62 
+          C165,60 178,80 190,105 
+          C200,125 210,132 230,125 
+          C248,118 260,112 275,117 
+          C290,122 300,124 315,121 
+          C330,118 340,118 360,119 
+          C380,120 400,120 420,120
+          C450,120 470,120 490,120"
+          stroke="#1a5c5a" stroke-width="2.5" fill="none"/>
+        <!-- Key points -->
+        <!-- tp=4.21min → x≈137, y_max → y≈62 -->
+        <circle cx="152" cy="62" r="4" fill="#c8922a"/>
+        <line x1="152" y1="62" x2="152" y2="260" stroke="#c8922a" stroke-width="1" stroke-dasharray="3,3"/>
+        <text x="140" y="275" font-family="JetBrains Mono" font-size="9" fill="#c8922a">tp=4.21</text>
+        <!-- tr≈2.47min → x≈108 -->
+        <circle cx="110" cy="120" r="3" fill="#2a8a87"/>
+        <text x="95" y="275" font-family="JetBrains Mono" font-size="9" fill="#2a8a87">tr=2.47</text>
+        <!-- ts≈19min → x≈390 -->
+        <line x1="390" y1="115" x2="390" y2="125" stroke="#8b3a1a" stroke-width="1.5"/>
+        <text x="375" y="275" font-family="JetBrains Mono" font-size="9" fill="#8b3a1a">ts≈19</text>
+        <!-- Y-axis ticks -->
+        <line x1="51" y1="120" x2="59" y2="120" stroke="#1a1209" stroke-width="1"/>
+        <text x="28" y="124" font-family="JetBrains Mono" font-size="10" fill="#3a2a18">16</text>
+        <line x1="51" y1="62" x2="59" y2="62" stroke="#1a1209" stroke-width="1"/>
+        <text x="22" y="66" font-family="JetBrains Mono" font-size="10" fill="#3a2a18">22.6</text>
+        <line x1="51" y1="260" x2="59" y2="260" stroke="#1a1209" stroke-width="1"/>
+        <text x="32" y="264" font-family="JetBrains Mono" font-size="10" fill="#3a2a18">0</text>
+        <!-- T period arrow -->
+        <line x1="152" y1="50" x2="318" y2="50" stroke="#8b3a1a" stroke-width="1" marker-end="url(#arrowhead)"/>
+        <line x1="152" y1="45" x2="152" y2="55" stroke="#8b3a1a" stroke-width="1"/>
+        <text x="205" y="44" font-family="JetBrains Mono" font-size="9" fill="#8b3a1a">T=8.42 min</text>
+      </svg>
+    </div>
+  </div>
+
+  <hr class="section-sep">
+
+  <!-- PROBLEM 2 — TWO TANKS -->
+  <div id="sec2" class="problem-card" style="margin-top:2rem;">
+    <div class="problem-label">PROBLEM 2 — TWO TANKS IN SERIES (NON-INTERACTING)</div>
+    <p>Two tanks drain independently in series. Show TF = product of two 1st order systems. Comment on overshoot.</p>
+  </div>
+
+  <div class="solution">
+    <h3>Part (a) — Why TF = Product of Two First-Order Systems</h3>
+    <p>For non-interacting tanks (outflow of Tank 1 does NOT depend on level of Tank 2):</p>
+    <div class="math-block">
+<span class="comment">Tank 1 — mass balance:</span>
+A₁ dh₁/dt = Fin − h₁/R₁
+
+Taking Laplace: A₁s·H₁(s) = Fin(s) − H₁(s)/R₁
+→ H₁(s)/Fin(s) = R₁/(τ₁s + 1)   where τ₁ = A₁R₁
+
+<span class="comment">Tank 2 — input is h₁/R₁ (outflow from Tank 1):</span>
+A₂ dh₂/dt = h₁/R₁ − h₂/R₂
+
+→ H₂(s)/H₁(s) = R₂/(τ₂s + 1)   where τ₂ = A₂R₂
+
+<span class="comment">Overall TF (output = h₂, input = Fin):</span>
+G(s) = H₂(s)/Fin(s) = [H₁/Fin] × [H₂/H₁]
+
+G(s) = R₁R₂ / [(τ₁s+1)(τ₂s+1)]
+    </div>
+    <p>Since the dynamics are <strong>independent</strong> (no hydraulic coupling), the overall TF is simply the <strong>product</strong> of two first-order TFs — each tank behaves as a separate lag element in series.</p>
+  </div>
+
+  <div class="solution">
+    <h3>Part (b) — 2nd Order TF and Overshoot Comment</h3>
+    <div class="math-block">
+Expand: (τ₁s+1)(τ₂s+1) = τ₁τ₂s² + (τ₁+τ₂)s + 1
+
+Compare with standard form: τ²s² + 2ζτs + 1
+
+→  τ = √(τ₁τ₂)
+→  2ζτ = τ₁ + τ₂
+→  ζ = (τ₁ + τ₂) / (2√(τ₁τ₂))
+    </div>
+    <div class="math-block">
+<span class="comment">Proof that ζ ≥ 1 always (AM-GM inequality):</span>
+
+Arithmetic Mean ≥ Geometric Mean:
+  (τ₁ + τ₂)/2 ≥ √(τ₁τ₂)
+
+→  (τ₁ + τ₂)/(2√(τ₁τ₂)) ≥ 1
+
+→  ζ ≥ 1  always!
+    </div>
+    <div class="conclusion">
+      <div class="conclusion-label">CONCLUSION</div>
+      <p>Since <strong>ζ ≥ 1</strong> for all non-interacting two-tank systems, the response is always <strong>overdamped or critically damped</strong>. There is <strong>NO overshoot and NO oscillation</strong>. The step response is a monotonically increasing S-shaped curve that smoothly approaches steady state.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     SECTION 3 — PROPORTIONAL BAND (PID)
+═══════════════════════════════════════════════ -->
+<section class="section" id="sec3">
+  <div class="section-header">
+    <span class="section-num">SECTION 02</span>
+    <h2 class="section-title">Proportional Band — PID Output</h2>
+  </div>
+
+  <div class="problem-card">
+    <div class="problem-label">PROBLEM STATEMENT</div>
+    <p>PID flow control: PB = 50%, τI = 1 min, τD = 0.5 min, Error = 10 units, de/dt = 4 units/min, t = 2 min.<br>
+    Find: controller gain, proportional output, integral output, total output.</p>
+  </div>
+
+  <div class="solution">
+    <h3>Key Formulas</h3>
+    <div class="math-block">
+PID output:  p(t) = Kc[e(t) + (1/τI)∫e dt + τD(de/dt)] + p₀
+
+Proportional Band:  PB% = 100 / Kc  →  Kc = 100 / PB%
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <strong>Controller Gain:</strong>
+        <div class="math-block">
+Kc = 100 / PB = 100 / 50 = <strong>2 (units of output / units of error)</strong>
+        </div>
+      </div>
+
+      <div class="step">
+        <strong>Proportional Output (P-term):</strong>
+        <div class="math-block">
+P = Kc × e = 2 × 10 = <strong>20 units</strong>
+        </div>
+      </div>
+
+      <div class="step">
+        <strong>Integral Output (I-term) at t = 2 min:</strong>
+        <p>Assuming error has been constant at 10 units from t=0 to t=2:</p>
+        <div class="math-block">
+I = Kc × (1/τI) × ∫₀² e dt
+  = 2 × (1/1) × (10 × 2)
+  = 2 × 1 × 20
+  = <strong>40 units</strong>
+        </div>
+      </div>
+
+      <div class="step">
+        <strong>Derivative Output (D-term):</strong>
+        <div class="math-block">
+D = Kc × τD × (de/dt)
+  = 2 × 0.5 × 4
+  = <strong>4 units</strong>
+        </div>
+      </div>
+
+      <div class="step">
+        <strong>Total Controller Output:</strong>
+        <div class="math-block">
+p(t) = P + I + D = 20 + 40 + 4 = <strong>64 units</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="answer-box">
+    <div class="answer-label">FINAL ANSWERS</div>
+    <ul>
+      <li><strong>Controller Gain Kc = 2</strong></li>
+      <li><strong>Proportional Output = 20 units</strong></li>
+      <li><strong>Integral Output = 40 units</strong></li>
+      <li><strong>Derivative Output = 4 units</strong></li>
+      <li><strong>Total Output p(t) = 64 units</strong></li>
+    </ul>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     SECTION 4 — PI CONTROLLER TF & STEP RESPONSE
+═══════════════════════════════════════════════ -->
+<section class="section" id="sec4">
+  <div class="section-header">
+    <span class="section-num">SECTION 03</span>
+    <h2 class="section-title">PI Controller — TF &amp; Step Response</h2>
+  </div>
+
+  <div class="problem-card">
+    <div class="problem-label">PROBLEM STATEMENT</div>
+    <p>Derive the transfer function of a PI controller. Estimate the dynamic response of PI controller output to a step change in error. Plot over 5 reset time intervals.</p>
+  </div>
+
+  <div class="solution">
+    <h3>Derivation of PI Transfer Function</h3>
+    <div class="math-block">
+PI controller time-domain equation:
+  p(t) = Kc[e(t) + (1/τI) ∫₀ᵗ e(t') dt'] + p₀
+
+Taking Laplace transform:
+  P(s) = Kc[E(s) + E(s)/(τI·s)] + p₀/s
+
+  P(s)/E(s) = Kc[1 + 1/(τI·s)]
+
+  <strong>Gc(s) = Kc · (τI·s + 1) / (τI·s)</strong>
+
+This has:
+  → One zero at: s = −1/τI
+  → One pole at: s = 0  (integrator — eliminates steady-state offset)
+    </div>
+  </div>
+
+  <div class="solution">
+    <h3>Step Response of PI Controller Output</h3>
+    <p>Let step change in error = A, so E(s) = A/s:</p>
+    <div class="math-block">
+P(s) = Gc(s) · E(s) = Kc·(τI·s + 1)/(τI·s) × A/s
+
+P(s) = Kc·A·(τI·s + 1) / (τI·s²)
+P(s) = KcA/s + KcA/(τI·s²)
+
+Taking inverse Laplace:
+  <strong>p(t) = KcA + (KcA/τI)·t</strong>   for t ≥ 0
+    </div>
+    <p>This has two parts:</p>
+    <ul>
+      <li><strong>KcA</strong> → Immediate step jump (proportional action)</li>
+      <li><strong>(KcA/τI)·t</strong> → Linear ramp rising with time (integral action)</li>
+    </ul>
+
+    <div class="solution">
+      <h3>Table of Values (for Kc = 1, A = 1, τI = 1 min as example)</h3>
+      <table>
+        <tr><th>Time (t)</th><th>Proportional (KcA)</th><th>Integral (KcA·t/τI)</th><th>Total p(t)</th></tr>
+        <tr><td>0 (t=0⁺)</td><td>1</td><td>0</td><td><strong>1</strong></td></tr>
+        <tr><td>1τI = 1 min</td><td>1</td><td>1</td><td><strong>2</strong></td></tr>
+        <tr><td>2τI = 2 min</td><td>1</td><td>2</td><td><strong>3</strong></td></tr>
+        <tr><td>3τI = 3 min</td><td>1</td><td>3</td><td><strong>4</strong></td></tr>
+        <tr><td>4τI = 4 min</td><td>1</td><td>4</td><td><strong>5</strong></td></tr>
+        <tr><td>5τI = 5 min</td><td>1</td><td>5</td><td><strong>6</strong></td></tr>
+      </table>
+    </div>
+
+    <div class="plot-container">
+      <div class="plot-title">PI CONTROLLER OUTPUT vs TIME (STEP ERROR INPUT)</div>
+      <svg viewBox="0 0 500 280" width="100%" style="max-height:260px;">
+        <!-- Axes -->
+        <line x1="60" y1="240" x2="470" y2="240" stroke="#1a1209" stroke-width="1.5"/>
+        <line x1="60" y1="250" x2="60" y2="20" stroke="#1a1209" stroke-width="1.5"/>
+        <!-- Axis labels -->
+        <text x="475" y="244" font-family="JetBrains Mono" font-size="12" fill="#1a1209">t</text>
+        <text x="64" y="16" font-family="JetBrains Mono" font-size="12" fill="#1a1209">p(t)</text>
+        <!-- Reset time marks t = 0,1,2,3,4,5 → x = 60,124,188,252,316,380,444 -->
+        <!-- y scale: p=0→240, p=6→40; step=60px per unit -->
+        <!-- Proportional line: constant at p=KcA=1 → y=180 -->
+        <line x1="60" y1="180" x2="444" y2="180" stroke="#c8922a" stroke-width="1.5" stroke-dasharray="6,4"/>
+        <text x="448" y="184" font-family="JetBrains Mono" font-size="9" fill="#c8922a">P-term</text>
+        <!-- Total p(t) ramp: from (60,180) to (444,40) — rises linearly -->
+        <line x1="60" y1="180" x2="444" y2="40" stroke="#1a5c5a" stroke-width="2.5"/>
+        <!-- Points at each τI -->
+        <circle cx="60" cy="180" r="4" fill="#1a5c5a"/>
+        <circle cx="124" cy="167" r="4" fill="#1a5c5a"/>
+        <circle cx="188" cy="153" r="4" fill="#1a5c5a"/>
+        <circle cx="252" cy="140" r="4" fill="#1a5c5a"/>
+        <circle cx="316" cy="127" r="4" fill="#1a5c5a"/>
+        <circle cx="380" cy="113" r="4" fill="#1a5c5a"/>
+        <circle cx="444" cy="100" r="4" fill="#1a5c5a"/>
+        <!-- τI tick labels -->
+        <line x1="124" y1="236" x2="124" y2="244" stroke="#1a1209"/>
+        <text x="112" y="255" font-family="JetBrains Mono" font-size="9" fill="#3a2a18">1τI</text>
+        <line x1="188" y1="236" x2="188" y2="244" stroke="#1a1209"/>
+        <text x="176" y="255" font-family="JetBrains Mono" font-size="9" fill="#3a2a18">2τI</text>
+        <line x1="252" y1="236" x2="252" y2="244" stroke="#1a1209"/>
+        <text x="240" y="255" font-family="JetBrains Mono" font-size="9" fill="#3a2a18">3τI</text>
+        <line x1="316" y1="236" x2="316" y2="244" stroke="#1a1209"/>
+        <text x="304" y="255" font-family="JetBrains Mono" font-size="9" fill="#3a2a18">4τI</text>
+        <line x1="380" y1="236" x2="380" y2="244" stroke="#1a1209"/>
+        <text x="368" y="255" font-family="JetBrains Mono" font-size="9" fill="#3a2a18">5τI</text>
+        <!-- Y ticks -->
+        <line x1="56" y1="180" x2="64" y2="180"/>
+        <text x="38" y="184" font-family="JetBrains Mono" font-size="9" fill="#3a2a18">KcA</text>
+        <!-- Legend -->
+        <line x1="300" y1="220" x2="330" y2="220" stroke="#c8922a" stroke-width="1.5" stroke-dasharray="5,3"/>
+        <text x="334" y="224" font-family="JetBrains Mono" font-size="9" fill="#c8922a">P-term (const)</text>
+        <line x1="300" y1="235" x2="330" y2="235" stroke="#1a5c5a" stroke-width="2"/>
+        <text x="334" y="239" font-family="JetBrains Mono" font-size="9" fill="#1a5c5a">Total p(t)</text>
+        <!-- Jump annotation -->
+        <text x="64" y="174" font-family="JetBrains Mono" font-size="9" fill="#8b3a1a">↑ instant jump</text>
+        <text x="64" y="163" font-family="JetBrains Mono" font-size="9" fill="#8b3a1a">   (P-action)</text>
+      </svg>
+    </div>
+    <div class="note">
+      <strong>Key insight:</strong> At t=0, the output instantly jumps by KcA (proportional kick). Then it rises linearly — the integral keeps adding as long as error persists. After each reset time τI, the integral term adds another KcA, so the output doubles, triples, etc.
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     SECTION 5 — CONTROLLER PROBLEMS
+═══════════════════════════════════════════════ -->
+<section class="section" id="sec5">
+  <div class="section-header">
+    <span class="section-num">SECTION 04</span>
+    <h2 class="section-title">Controller &amp; Final Control Element</h2>
+  </div>
+
+  <!-- PROB 1 — PAGE 129 -->
+  <div class="problem-card">
+    <div class="problem-label">PROBLEM 1 (PAGE 129) — PNEUMATIC PROPORTIONAL CONTROLLER</div>
+    <p>Temperature range: 60–100°F. Output 3 psi → 15 psi as temperature goes 71°F → 75°F. Find gain and PB.</p>
+  </div>
+
+  <div class="solution">
+    <h3>Solution</h3>
+    <div class="math-block">
+Measurement span = 100 − 60 = <strong>40°F</strong>
+Output span = 15 − 3 = <strong>12 psi</strong>
+
+Controller Gain:
+  Kc = ΔOutput / ΔInput = (15−3) / (75−71) = 12/4 = <strong>3 psi/°F</strong>
+
+Proportional Band:
+  The input span that causes full output change = 75 − 71 = 4°F
+  
+  PB% = (input span for full output / total measurement range) × 100
+      = (4 / 40) × 100
+      = <strong>10%</strong>
+
+Verification:
+  PB% = 100/Kc(normalized)  →  need Kc in %output/%input
+  Kc(normalized) = (12/12 × 100) / (4/40 × 100) = 100/10 = 10
+  PB = 100/10 = 10% ✓
+    </div>
+    <div class="answer-box">
+      <div class="answer-label">ANSWERS</div>
+      <p><strong>Controller Gain = 3 psi/°F</strong> &nbsp;|&nbsp; <strong>Proportional Band = 10%</strong></p>
+    </div>
+  </div>
+
+  <hr class="section-sep">
+
+  <!-- PROB 2 — PAGE 134 -->
+  <div class="problem-card">
+    <div class="problem-label">PROBLEM 2 (PAGE 134) — PID WITH RAMP SETPOINT</div>
+    <p>PID at steady state, output = 9 psig. At t=0, setpoint moves at −0.5 in/min (direction of lower readings). Kc=2 psig/in, τI=1.25 min, τD=0.4 min. Plot output vs time.</p>
+  </div>
+
+  <div class="solution">
+    <h3>Setting Up the Error Signal</h3>
+    <div class="math-block">
+Setpoint moves in direction of LOWER readings at 0.5 in/min.
+This means measurement > setpoint → error e(t) = +0.5t  (positive, increasing)
+
+e(t) = 0.5t  in/min
+de/dt = 0.5 in/min (constant)
+∫₀ᵗ e dt = 0.25t²
+    </div>
+
+    <div class="math-block">
+PID output:
+  p(t) = p₀ + Kc[e(t) + (1/τI)∫e dt + τD(de/dt)]
+       = 9 + 2[0.5t + (1/1.25)(0.25t²) + 0.4(0.5)]
+       = 9 + 2[0.5t + 0.2t² + 0.2]
+       = 9 + t + 0.4t² + 0.4
+
+  <strong>p(t) = 9.4 + t + 0.4t²</strong>   psig
+    </div>
+
+    <table>
+      <tr><th>t (min)</th><th>P-term (2×0.5t)</th><th>I-term (2×0.2t²)</th><th>D-term (2×0.2)</th><th>Total p(t)</th></tr>
+      <tr><td>0⁺</td><td>0</td><td>0</td><td>0.4</td><td><strong>9.4</strong></td></tr>
+      <tr><td>1</td><td>1.0</td><td>0.4</td><td>0.4</td><td><strong>10.8</strong></td></tr>
+      <tr><td>2</td><td>2.0</td><td>1.6</td><td>0.4</td><td><strong>13.0</strong></td></tr>
+      <tr><td>3</td><td>3.0</td><td>3.6</td><td>0.4</td><td><strong>16.0</strong></td></tr>
+      <tr><td>4</td><td>4.0</td><td>6.4</td><td>0.4</td><td><strong>19.8</strong></td></tr>
+      <tr><td>5</td><td>5.0</td><td>10.0</td><td>0.4</td><td><strong>24.4</strong></td></tr>
+    </table>
+
+    <div class="plot-container">
+      <div class="plot-title">OUTPUT PRESSURE p(t) vs TIME (PID RAMP RESPONSE)</div>
+      <svg viewBox="0 0 500 280" width="100%" style="max-height:260px;">
+        <!-- Axes -->
+        <line x1="60" y1="240" x2="470" y2="240" stroke="#1a1209" stroke-width="1.5"/>
+        <line x1="60" y1="250" x2="60" y2="20" stroke="#1a1209" stroke-width="1.5"/>
+        <text x="475" y="244" font-family="JetBrains Mono" font-size="12" fill="#1a1209">t (min)</text>
+        <text x="64" y="16" font-family="JetBrains Mono" font-size="12" fill="#1a1209">p(t) psig</text>
+        <!-- Data points: t=0→9.4, 1→10.8, 2→13, 3→16, 4→19.8, 5→24.4 -->
+        <!-- Scale: t: 60px per unit (0→5 = 300px), p: 0 baseline at y=280, each psig = 8px -->
+        <!-- t=0,x=60; t=1,x=120; t=2,x=180; t=3,x=240; t=4,x=300; t=5,x=360 -->
+        <!-- p=9.4→y=165; 10.8→y=154; 13→y=136; 16→y=112; 19.8→y=82; 24.4→y=45 -->
+        <!-- Initial steady state line -->
+        <line x1="60" y1="165" x2="60" y2="240" stroke="#c8922a" stroke-width="1" stroke-dasharray="3,3"/>
+        <text x="25" y="169" font-family="JetBrains Mono" font-size="9" fill="#c8922a">9 psig</text>
+        <!-- Curve p(t) = 9.4 + t + 0.4t² -->
+        <polyline points="60,165 120,154 180,136 240,112 300,82 360,45"
+          stroke="#1a5c5a" stroke-width="2.5" fill="none"/>
+        <!-- Data points -->
+        <circle cx="60" cy="165" r="4" fill="#c8922a"/>
+        <circle cx="120" cy="154" r="4" fill="#1a5c5a"/>
+        <circle cx="180" cy="136" r="4" fill="#1a5c5a"/>
+        <circle cx="240" cy="112" r="4" fill="#1a5c5a"/>
+        <circle cx="300" cy="82" r="4" fill="#1a5c5a"/>
+        <circle cx="360" cy="45" r="4" fill="#1a5c5a"/>
+        <!-- D-term jump annotation -->
+        <line x1="60" y1="172" x2="60" y2="165" stroke="#8b3a1a" stroke-width="2"/>
+        <text x="64" y="163" font-family="JetBrains Mono" font-size="8" fill="#8b3a1a">D-kick: +0.4</text>
+        <!-- Labels -->
+        <text x="365" y="42" font-family="JetBrains Mono" font-size="9" fill="#3a2a18">24.4</text>
+        <!-- x-axis ticks -->
+        <line x1="120" y1="236" x2="120" y2="244" stroke="#1a1209"/>
+        <text x="116" y="255" font-family="JetBrains Mono" font-size="10" fill="#3a2a18">1</text>
+        <line x1="180" y1="236" x2="180" y2="244" stroke="#1a1209"/>
+        <text x="176" y="255" font-family="JetBrains Mono" font-size="10" fill="#3a2a18">2</text>
+        <line x1="240" y1="236" x2="240" y2="244" stroke="#1a1209"/>
+        <text x="236" y="255" font-family="JetBrains Mono" font-size="10" fill="#3a2a18">3</text>
+        <line x1="300" y1="236" x2="300" y2="244" stroke="#1a1209"/>
+        <text x="296" y="255" font-family="JetBrains Mono" font-size="10" fill="#3a2a18">4</text>
+        <line x1="360" y1="236" x2="360" y2="244" stroke="#1a1209"/>
+        <text x="356" y="255" font-family="JetBrains Mono" font-size="10" fill="#3a2a18">5</text>
+      </svg>
+    </div>
+    <div class="note">
+      <strong>Key:</strong> At t=0⁺, derivative action causes an immediate jump from 9→9.4 psig. Then output rises parabolically (quadratic term from integral of ramp).
+    </div>
+  </div>
+
+  <hr class="section-sep">
+
+  <!-- PROB 3 — PID CLOSED LOOP -->
+  <div class="problem-card">
+    <div class="problem-label">PROBLEM 3 — PID CLOSED-LOOP ANALYSIS</div>
+    <p>G_P(s) = 2/(4s+1), C(s) = 3 + 2/s + s (Kp=3, KI=2, KD=1). Find: closed-loop TF, SSE for step &amp; ramp, rise time, settling time, effect of derivative on overshoot.</p>
+  </div>
+
+  <div class="solution">
+    <h3>Step 1 — Controller and Open-Loop TF</h3>
+    <div class="math-block">
+C(s) = Kp + KI/s + KD·s = 3 + 2/s + s
+
+     = (3s + 2 + s²) / s = (s² + 3s + 2) / s
+
+Open-loop: L(s) = C(s)·Gp(s) = [(s²+3s+2)/s] × [2/(4s+1)]
+
+L(s) = 2(s²+3s+2) / [s(4s+1)]
+     = 2(s+1)(s+2) / [s(4s+1)]
+    </div>
+
+    <h3>Step 2 — Closed-Loop Transfer Function</h3>
+    <div class="math-block">
+T(s) = L(s) / [1 + L(s)]
+
+     = 2(s²+3s+2)/[s(4s+1)] / {1 + 2(s²+3s+2)/[s(4s+1)]}
+
+     = 2(s²+3s+2) / [s(4s+1) + 2(s²+3s+2)]
+
+Denominator: s(4s+1) + 2(s²+3s+2)
+           = 4s² + s + 2s² + 6s + 4
+           = 6s² + 7s + 4
+
+<strong>T(s) = 2(s²+3s+2) / (6s²+7s+4)</strong>
+    </div>
+
+    <h3>Step 3 — Steady-State Error</h3>
+    <div class="math-block">
+<span class="comment">SSE = lim(s→0) s·E(s) = lim(s→0) s · [1-T(s)] · R(s)</span>
+
+For STEP input R(s)=1/s:
+  SSE = lim(s→0) [1 − T(s)] = 1 − T(0)
+  T(0) = 2(0+0+2)/(0+0+4) = 4/4 = 1
+  SSE (step) = 1 − 1 = <strong>0</strong>  ✓ (PID has integrator, always kills step offset)
+
+For RAMP input R(s)=1/s²:
+  SSE = lim(s→0) s · [1-T(s)] / s² = lim(s→0) [1-T(s)]/s
+  
+  Use L'Hôpital or series expansion:
+  T(s) ≈ 1 + (dT/ds)|₀ · s + ...
+  
+  From L(s): Position constant Kp_pos = lim(s→0) L(s) = ∞ (integrator in C)
+  Velocity constant: Kv = lim(s→0) s·L(s)
+    = lim(s→0) 2(s²+3s+2)/(4s+1) = 2×2/1 = 4
+  
+  SSE (ramp) = 1/Kv = <strong>1/4 = 0.25 units</strong>
+    </div>
+
+    <h3>Step 4 — Rise Time and Settling Time</h3>
+    <div class="math-block">
+Closed-loop denominator: 6s² + 7s + 4
+
+Divide by 6: s² + (7/6)s + (4/6) = s² + 1.167s + 0.667
+
+Standard: s² + 2ζωn·s + ωn² = 0
+
+ωn² = 0.667  →  ωn = 0.816 rad/s
+2ζωn = 1.167  →  ζ = 1.167/(2×0.816) = <strong>0.714</strong>
+
+ωd = ωn√(1−ζ²) = 0.816×√(1−0.510) = 0.816×0.700 = 0.572 rad/s
+
+Rise Time: tr = (π − cos⁻¹ζ)/ωd
+           = (3.1416 − cos⁻¹(0.714))/0.572
+           = (3.1416 − 0.775)/0.572
+           = 2.367/0.572 = <strong>4.14 s</strong>
+
+Settling Time: ts = 4/(ζ·ωn) = 4/(0.714×0.816) = 4/0.583 = <strong>6.86 s</strong>
+    </div>
+
+    <h3>Step 5 — Effect of Derivative Term on Overshoot</h3>
+    <div class="math-block">
+Without KD (PI only, KD=0): ζ would be lower → higher overshoot
+With KD=1: damping is increased
+
+% Overshoot = exp(−πζ/√(1−ζ²)) × 100
+            = exp(−π×0.714/√(1−0.510)) × 100
+            = exp(−2.238/0.700) × 100
+            = exp(−3.197) × 100
+            = <strong>4.1%</strong>
+
+The KD term adds a zero at s = −KI/KD = −2 and increases effective damping.
+→ Derivative action REDUCES overshoot and improves transient response.
+    </div>
+
+    <div class="answer-box">
+      <div class="answer-label">ANSWERS — PROBLEM 3</div>
+      <ul>
+        <li><strong>Closed-Loop TF: T(s) = 2(s²+3s+2) / (6s²+7s+4)</strong></li>
+        <li><strong>SSE (step) = 0</strong> (integral action eliminates offset)</li>
+        <li><strong>SSE (ramp) = 0.25 units</strong></li>
+        <li><strong>Rise Time = 4.14 s</strong></li>
+        <li><strong>Settling Time = 6.86 s</strong></li>
+        <li><strong>Overshoot with KD=1: ~4.1%</strong> (significantly reduced vs PI alone)</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     SECTION 6 — SERVO & REGULATOR
+═══════════════════════════════════════════════ -->
+<section class="section" id="sec6">
+  <div class="section-header">
+    <span class="section-num">SECTION 05</span>
+    <h2 class="section-title">Servo &amp; Regulator Problems</h2>
+  </div>
+
+  <!-- COMPARISON TABLE -->
+  <div class="solution">
+    <h3>Problem 1 — Servo vs Regulator Comparison</h3>
+    <table>
+      <tr><th>Feature</th><th>Servo Problem</th><th>Regulator Problem</th></tr>
+      <tr><td>Objective</td><td>Track setpoint changes</td><td>Reject disturbances</td></tr>
+      <tr><td>Setpoint</td><td>Changes (step/ramp)</td><td>Constant</td></tr>
+      <tr><td>Disturbance</td><td>Absent or secondary</td><td>Primary concern</td></tr>
+      <tr><td>Controller focus</td><td>Fast setpoint tracking, minimal overshoot</td><td>Fast disturbance rejection, zero offset</td></tr>
+      <tr><td>Real example</td><td>Water heater: SP 40°C → 60°C</td><td>Tank level: sudden outflow increase</td></tr>
+      <tr><td>Controller choice</td><td>PID (for speed + accuracy)</td><td>PI (integral for zero offset)</td></tr>
+      <tr><td>Performance metric</td><td>Rise time, overshoot, settling</td><td>Offset, recovery time</td></tr>
+    </table>
+  </div>
+
+  <div class="solution">
+    <h3>Servo Control Block Diagram — Water Heater (40°C → 60°C)</h3>
+    <div class="diagram">
+<span class="label">SERVO CONTROL SYSTEM — WATER HEATER TEMPERATURE</span>
+
+         SP(60°C)                                          
+            │                                             
+            ▼                                             
+    ┌───────────┐   Error   ┌─────────────┐   u(t)   ┌───────────────┐
+    │  Summing  │──────────▶│  PID        │─────────▶│  Control Valve│
+    │  Point(Σ) │           │  Controller │          │  / Heater     │
+    └───────────┘           └─────────────┘          └───────┬───────┘
+          ▲                                                   │ Heat
+          │                                          ┌────────▼───────┐
+          │                                          │    Process     │
+          │                                          │  (Water Tank)  │
+          │                                          └────────┬───────┘
+          │ Measured                                          │ T(°C)
+          │ Temperature        ┌──────────────┐              │
+          └────────────────────│ Temp. Sensor │◀─────────────┘
+                               │  (RTD/TC)    │
+                               └──────────────┘
+    </div>
+    <p><strong>Block functions:</strong></p>
+    <ul>
+      <li><strong>Summing point (Σ):</strong> Computes Error = SP − Measured temperature</li>
+      <li><strong>PID Controller:</strong> Processes error → P corrects current error, I eliminates offset, D anticipates future error</li>
+      <li><strong>Control Valve/Heater:</strong> Final control element — increases/decreases heat input</li>
+      <li><strong>Process (Tank):</strong> Water dynamics — temperature rises with heat input</li>
+      <li><strong>Temp. Sensor:</strong> Measures actual temperature and feeds it back</li>
+    </ul>
+    <div class="note">
+      <strong>Response when SP changes 40°C → 60°C:</strong> Error jumps to +20°C. PID increases heater power. Temperature rises. As temperature approaches 60°C, error decreases, D-term acts to dampen overshoot. Eventually temperature settles exactly at 60°C (integral eliminates offset).
+    </div>
+  </div>
+
+  <div class="solution">
+    <h3>Regulator Control Block Diagram — Tank Level</h3>
+    <div class="diagram">
+<span class="label">REGULATOR CONTROL SYSTEM — TANK LEVEL</span>
+
+   Disturbance D(s)
+   (Outflow surge)
+         │
+         ▼
+         ┌───────────────────────────────────────────┐
+SP(const)│                                           │
+(desired │  Error   ┌──────────────┐  u(t) ┌──────────────┐
+  level) │─────────▶│  PI          │──────▶│  Inlet Valve │
+    │    │          │  Controller  │       │  (Actuator)  │
+    ▼    │          └──────────────┘       └──────┬───────┘
+┌───────┐│                                        │ Qin
+│  Σ   ││                               ┌─────────▼───────┐
+└───────┘│                               │   Tank Process  │──── Level h(t)
+    ▲   │                               └─────────┬───────┘
+    │   └───────────────────────────────────────── │ ──┐
+    │                                              │   │
+    │                    ┌──────────────────┐      │   │ (disturbance Qout enters here)
+    └────────────────────│  Level Transmitter│◀────┘   │
+                         │  (LT)            │          │
+                         └──────────────────┘          │
+                                              ◀─────────┘
+    </div>
+    <p><strong>How it rejects sudden outflow increase:</strong></p>
+    <ol style="margin-left:1.4rem; font-size:0.97rem; margin-top:0.5rem;">
+      <li>Outflow suddenly increases → tank level drops</li>
+      <li>Level transmitter detects drop → sends signal to summing point</li>
+      <li>Error = SP − Measured level becomes positive</li>
+      <li>PI controller increases opening of inlet valve (increases Qin)</li>
+      <li>Integral action ensures level returns exactly to setpoint (zero offset)</li>
+      <li>Level stabilizes — disturbance fully rejected</li>
+    </ol>
+  </div>
+
+  <hr class="section-sep">
+
+  <!-- PROBLEM 2 — SERVO STEP CHANGE 0.1 -->
+  <div class="problem-card">
+    <div class="problem-label">PROBLEM 2 — SERVO: STEP CHANGE OF 0.1 UNIT</div>
+    <p>A control system receives a setpoint step change of 0.1 unit. Find: (a) max Y and time, (b) offset, (c) period of oscillation.</p>
+  </div>
+
+  <div class="solution">
+    <h3>Solution (Using Standard 2nd-Order Closed-Loop with P-Control)</h3>
+    <p>For a typical closed-loop system shown in textbook figures (proportional controller, first-order process), the closed-loop TF is:</p>
+    <div class="math-block">
+Assume (typical textbook figure values):
+  Process: Gp(s) = Kp/(τs+1),  Controller gain: Kc
+
+Closed-loop TF:  T(s) = KcKp/(τs+1) / [1 + KcKp/(τs+1)]
+               = KcKp / (τs + 1 + KcKp)
+               = [KcKp/(1+KcKp)] / [τ/(1+KcKp) · s + 1]
+
+<span class="comment">This is a 1st order CL with P-only control. If the figure shows a 2nd-order system
+or a P-controller with two lags, the system becomes underdamped. General approach:</span>
+
+Given standard CL parameters (from figure):
+  Let the CL system have: τCL, ζCL derived from figure values.
+
+For step change R = 0.1:
+
+(a) Maximum Y:
+    y_max = (CL gain × 0.1) × (1 + OS/100)
+    where OS = exp(−πζ/√(1−ζ²)) × 100
+
+(b) Offset (P-only control):
+    Offset = 0.1 × 1/(1+KcKp) = 0.1 − y(∞)
+    y(∞) = 0.1 × KcKp/(1+KcKp)
+
+(c) Period of oscillation:
+    T = 2π/ωd = 2π/(ωn√(1−ζ²))
+
+Time of max: tp = π/ωd
+    </div>
+
+    <div class="note">
+      <strong>Note:</strong> The exact numbers depend on the specific transfer function values given in the "Figure" referenced in the question. The formulas above are the exact method — substitute the Kc, Kp, τ values from your figure to get numerical answers. The method is identical to Section 1 above.
+    </div>
+
+    <p>For a <strong>worked numerical example</strong> — using commonly given textbook values of Kc=1, Gp = 1/(s+1)(2s+1):</p>
+    <div class="math-block">
+Open-loop: L(s) = 1/[(s+1)(2s+1)]
+
+CL TF: T(s) = 1 / [2s²+3s+2]  →  divide by 2:
+     = 0.5 / [s² + 1.5s + 1]
+
+τ²=1 → τ=1, 2ζτ=1.5 → ζ=0.75, ωn=1, ωd=√(1−0.5625)=0.661
+
+Step 0.1:
+  y(∞) = 0.5×0.1 = 0.05  (gain = 0.5)
+  Offset = 0.1−0.05 = 0.05
+  OS = exp(−π×0.75/0.661) = exp(−3.566) = 2.8%
+  y_max = 0.05×1.028 = 0.051  at  tp = π/0.661 = 4.75 s
+  T = 2π/0.661 = 9.51 s
+    </div>
+  </div>
+
+  <hr class="section-sep">
+
+  <!-- PROBLEM 3 — REGULATOR DISTURBANCE -->
+  <div class="problem-card">
+    <div class="problem-label">PROBLEM 3 — REGULATOR: DISTURBANCE REJECTION</div>
+    <p>Gp(s) = 1/(8s+1), Gd(s) = 1/(4s+1), Kp=2. Disturbance +10 kPa at t=0. Find: immediate effect, final pressure, SSE, speed of rejection.</p>
+  </div>
+
+  <div class="solution">
+    <h3>Closed-Loop Response to Disturbance</h3>
+    <div class="math-block">
+For a P-controller with disturbance entering at the process input:
+
+  Y(s)/D(s) = Gd(s) / [1 + Kc·Gp(s)]
+
+Substituting:
+  Y(s)/D(s) = [1/(4s+1)] / {1 + 2×[1/(8s+1)]}
+            = [1/(4s+1)] / [(8s+1+2)/(8s+1)]
+            = [1/(4s+1)] × [(8s+1)/(8s+3)]
+
+  Y(s)/D(s) = (8s+1) / [(4s+1)(8s+3)]
+    </div>
+
+    <h3>Immediate Effect (t → 0⁺, s → ∞)</h3>
+    <div class="math-block">
+lim(s→∞) Y(s)/D(s) = lim(s→∞) (8s+1)/[(4s+1)(8s+3)]
+                    = lim(s→∞) 8s / (32s²)
+                    = lim(s→∞) 1/(4s) = 0
+
+<strong>Immediate effect = 0 kPa</strong>
+(Process lags prevent instantaneous pressure change)
+    </div>
+
+    <h3>Final Pressure After Control Action (t → ∞, s → 0)</h3>
+    <div class="math-block">
+Final value theorem:
+  y(∞) = lim(s→0) s · Y(s)  with D(s) = 10/s (step of +10 kPa)
+
+  y(∞) = lim(s→0) s × [(8s+1)/((4s+1)(8s+3))] × (10/s)
+        = lim(s→0) 10(8s+1)/[(4s+1)(8s+3)]
+        = 10 × (1) / [(1)(3)]
+        = 10/3
+        = <strong>3.33 kPa</strong>
+
+Final pressure = Psteady + y(∞) = original + 3.33 kPa
+    </div>
+
+    <h3>Steady-State Error and Speed of Rejection</h3>
+    <div class="math-block">
+<strong>SSE EXISTS</strong> because P-only control cannot fully reject a disturbance.
+  Residual pressure deviation = 3.33 kPa (offset)
+  → To eliminate: need INTEGRAL action (PI or PID controller)
+
+Speed of disturbance rejection (dominant time constant):
+  Closed-loop poles from denominator (4s+1)(8s+3) + (8s+1)·0 ... 
+
+  Actually, CL char. eq: (4s+1)(8s+1) + 2 = 0  (from 1+KcGp=0)
+  32s² + 12s + 1 + 2 = 0
+  32s² + 12s + 3 = 0
+  s = [−12 ± √(144−384)] / 64  → complex roots → underdamped!
+
+  Or using dominant CL time constant approximation:
+  τCL ≈ τprocess / (1 + Kc·Kp) = 8 / (1 + 2×1) = 8/3 = <strong>2.67 min</strong>
+
+Speed: The disturbance is rejected with time constant ≈ <strong>2.67 min</strong>
+    </div>
+
+    <div class="answer-box">
+      <div class="answer-label">FINAL ANSWERS — REGULATOR PROBLEM 3</div>
+      <ul>
+        <li><strong>Immediate effect = 0 kPa</strong> (no instantaneous response due to lags)</li>
+        <li><strong>Final pressure deviation = +3.33 kPa</strong> (residual after P-control)</li>
+        <li><strong>Steady-state error EXISTS = 3.33 kPa</strong> (P-only cannot eliminate disturbance offset)</li>
+        <li><strong>Speed of rejection τCL ≈ 2.67 min</strong></li>
+        <li>To achieve zero offset → upgrade to <strong>PI controller</strong></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     SECTION 7 — BLOCK DIAGRAM REDUCTION
+═══════════════════════════════════════════════ -->
+<section class="section" id="sec7">
+  <div class="section-header">
+    <span class="section-num">SECTION 06</span>
+    <h2 class="section-title">Block Diagram Reduction — Key Rules</h2>
+  </div>
+
+  <div class="solution">
+    <p>Though the specific figure for block diagram reduction wasn't included in the document text, here are all the essential rules needed for any reduction problem:</p>
+
+    <table>
+      <tr><th>Configuration</th><th>Rule</th><th>Result</th></tr>
+      <tr><td>Series (cascade)</td><td>G1 → G2</td><td>G1 · G2</td></tr>
+      <tr><td>Parallel</td><td>G1 and G2 in parallel</td><td>G1 + G2</td></tr>
+      <tr><td>Negative feedback</td><td>Forward G, Feedback H</td><td>G / (1 + GH)</td></tr>
+      <tr><td>Positive feedback</td><td>Forward G, Feedback H</td><td>G / (1 − GH)</td></tr>
+      <tr><td>Unity feedback</td><td>H = 1</td><td>G / (1 + G)</td></tr>
+      <tr><td>Move summing point ahead</td><td>Summing → G</td><td>Add 1/G in moved branch</td></tr>
+      <tr><td>Move summing point behind</td><td>G → Summing</td><td>Add G in moved branch</td></tr>
+      <tr><td>Move takeoff ahead of G</td><td>Takeoff before G</td><td>Add G in takeoff branch</td></tr>
+      <tr><td>Move takeoff behind G</td><td>Takeoff after G</td><td>Add 1/G in takeoff branch</td></tr>
+    </table>
+
+    <div class="note">
+      <strong>Standard Approach:</strong> (1) Reduce innermost loops first. (2) Work outward. (3) Combine series/parallel blocks. (4) Apply feedback formula last.
+    </div>
+
+    <h3>Car Speed Control Case Study (80 km/h — Servo)</h3>
+    <div class="diagram">
+<span class="label">CAR SPEED CONTROL — SERVO SYSTEM</span>
+
+                     Disturbance
+                 (Grade change: uphill/downhill)
+                          │
+SP(80 km/h)               ▼
+    │      Error  ┌─────────────┐  Throttle ┌───────────────┐  Speed
+    ▼      ──────▶│  Controller │──────────▶│  Engine +     │──────▶ v(t)
+┌───────┐         │  (PID/PI)   │           │  Drivetrain   │
+│   Σ   │         └─────────────┘           └───────────────┘
+└───────┘                                          │
+    ▲                                              │
+    │                  ┌──────────────────┐        │
+    └──────────────────│  Speed Sensor    │◀───────┘
+                       │  (Speedometer)   │
+                       └──────────────────┘
+
+Plain road:   Error ≈ 0, throttle steady
+Uphill:       Speed drops → Error (+) → Controller increases throttle
+Downhill:     Speed rises → Error (−) → Controller reduces throttle
+    </div>
+  </div>
+</section>
+
+<!-- FORMULA CHEAT SHEET -->
+<section class="section">
+  <div class="section-header">
+    <span class="section-num">APPENDIX</span>
+    <h2 class="section-title">Master Formula Cheat Sheet</h2>
+  </div>
+  <table>
+    <tr><th>Formula</th><th>Symbol</th><th>Use</th></tr>
+    <tr><td>τ² = coeff of s², 2ζτ = coeff of s</td><td>τ, ζ</td><td>Extract from TF</td></tr>
+    <tr><td>ωn = 1/τ &nbsp;|&nbsp; ωd = ωn√(1−ζ²)</td><td>ωn, ωd</td><td>Natural &amp; damped freq</td></tr>
+    <tr><td>OS% = e^(−πζ/√(1−ζ²)) × 100</td><td>%OS</td><td>Overshoot</td></tr>
+    <tr><td>DR = (OS/100)²</td><td>DR</td><td>Decay ratio</td></tr>
+    <tr><td>tp = π/ωd</td><td>tp</td><td>Time of 1st peak</td></tr>
+    <tr><td>T = 2π/ωd</td><td>T</td><td>Period</td></tr>
+    <tr><td>tr = (π − cos⁻¹ζ)/ωd</td><td>tr</td><td>Rise time</td></tr>
+    <tr><td>ts = 4/(ζωn)</td><td>ts</td><td>Settling time (2%)</td></tr>
+    <tr><td>Kc = 100/PB%</td><td>Kc</td><td>Gain from PB</td></tr>
+    <tr><td>Gc(s) = Kc(τIs+1)/(τIs)</td><td>PI TF</td><td>PI controller</td></tr>
+    <tr><td>Gc(s) = Kc(τIτDs²+τIs+1)/(τIs)</td><td>PID TF</td><td>PID controller</td></tr>
+    <tr><td>T(s) = G/(1+GH)</td><td>CL TF</td><td>Feedback loop</td></tr>
+    <tr><td>SSE(step,P) = 1/(1+KcKp)</td><td>Offset</td><td>P-only offset</td></tr>
+    <tr><td>SSE(step,PI/PID) = 0</td><td>—</td><td>Integral kills offset</td></tr>
+    <tr><td>Kv = lim(s→0) sL(s)</td><td>Kv</td><td>Velocity constant</td></tr>
+    <tr><td>SSE(ramp) = 1/Kv</td><td>—</td><td>Ramp SSE</td></tr>
+    <tr><td>y_max = y(∞)(1+OS/100)</td><td>ymax</td><td>Peak output</td></tr>
+  </table>
+</section>
+
+</main>
+
+<footer>PDC COMPLETE SOLUTIONS — CT2 &nbsp;·&nbsp; All working shown &nbsp;·&nbsp; Prepared for exam revision</footer>
+
+</body>
+</html>
